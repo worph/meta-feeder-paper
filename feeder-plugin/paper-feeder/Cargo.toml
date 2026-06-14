@@ -1,0 +1,40 @@
+[package]
+name = "paper-feeder"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+# Paper feeder sidecar: arXiv + Europe PMC (PubMed) + Sci-Hub. arXiv and
+# PubMed are always on; Sci-Hub is opt-in (legal risk) and soft-skips unless
+# SCIHUB_MIRRORS is set in this feeder's own env.
+
+[lib]
+name = "paper_feeder"
+path = "src/lib.rs"
+
+[[bin]]
+name = "paper-feeder"
+path = "src/main.rs"
+
+[dependencies]
+meta-feeder-sdk = { path = "../../crates/meta-feeder-sdk" }
+
+tokio = { version = "1.40", features = ["full"] }
+axum = { version = "0.7", features = ["json"] }
+anyhow = "1"
+async-trait = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.12", features = ["json", "rustls-tls", "stream"], default-features = false }
+quick-xml = "0.36"
+bytes = "1"
+futures = "0.3"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+[dev-dependencies]
+wiremock = "0.6"
+tempfile = "3"
+tokio = { version = "1.40", features = ["full", "test-util"] }
